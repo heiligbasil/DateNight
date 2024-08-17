@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Date Night</string>
+    <string name="background1_credit">Photo by <a href="https://unsplash.com/\@brentcox\?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Brent Cox</a> on <a href="https://unsplash.com/photos/brown-rock-formations-under-starry-night-lRM-J3q2Z3k\?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></string>
+    <string name="profile1_credit">A photo of a man (this app author)</string>
+    <string name="generic_profile_greeting">Welcome, </string>
+    <string name="profile1_name">Basil</string>
+    <string name="search_results_icon_description">Icon for </string>
+</resources>
