@@ -2,13 +2,14 @@ package com.heiligbasil.datenight
 
 import kotlinx.serialization.Serializable
 
+@Serializable
 sealed class Screens {
     @Serializable
-    object Home
+    data object Home : Screens()
 
     @Serializable
-    object Results
+    data object Results : Screens()
 
     @Serializable
-    object Details
+    data class Details(val selectedDetails: SearchResult) : Screens()
 }

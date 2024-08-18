@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
+import kotlin.reflect.typeOf
 
 @Composable
 fun ScreensNavigation(navHostController: NavHostController) {
@@ -14,12 +16,15 @@ fun ScreensNavigation(navHostController: NavHostController) {
             })
         }
         composable<Screens.Results> {
-            ScreenResults(onNavigateToScreenDetails = {
-                navHostController.navigate(route = Screens.Details)
+            ScreenResults(onNavigateToScreenDetails = { searchResultPassed ->
+                navHostController.navigate(route = Screens.Details(selectedDetails = searchResultPassed))
             })
         }
-        composable<Screens.Details> {
-            ScreenDetails()
+        composable<Screens.Details>(
+            typeMap = mapOf(typeOf<SearchResult>() to SearchResultNavType)
+        ) { navBackStackEntry ->
+            val routeArg = navBackStackEntry.toRoute<Screens.Details>()
+            ScreenDetails(searchResult = routeArg.selectedDetails)
         }
     }
 }

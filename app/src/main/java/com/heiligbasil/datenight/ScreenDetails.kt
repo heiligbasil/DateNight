@@ -14,15 +14,16 @@ import androidx.compose.ui.unit.sp
 import com.heiligbasil.datenight.ui.theme.DateNightTheme
 
 @Composable
-fun ScreenDetails() {
+fun ScreenDetails(searchResult: SearchResult) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         HorizontalDivider()
-        Text(text = "Details", fontSize = 50.sp, color = Color.Red)
+        Text(text = searchResult.title, fontSize = 50.sp, color = Color.Red)
         HorizontalDivider()
+        Text(text = searchResult.description, fontSize = 25.sp, color = Color.Red)
     }
 }
 
@@ -30,6 +31,6 @@ fun ScreenDetails() {
 @Composable
 fun ScreenDetailsPreview() {
     DateNightTheme(darkTheme = true) {
-        ScreenDetails()
+        ScreenDetails(sampleResults[0])
     }
 }

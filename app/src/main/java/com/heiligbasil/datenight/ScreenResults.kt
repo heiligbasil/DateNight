@@ -26,7 +26,7 @@ import com.heiligbasil.datenight.ui.theme.onPrimaryLight
 import com.heiligbasil.datenight.ui.theme.primaryContainerLight
 
 @Composable
-fun ScreenResults(onNavigateToScreenDetails: () -> Unit) {
+fun ScreenResults(onNavigateToScreenDetails: (SearchResult) -> Unit) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -36,7 +36,9 @@ fun ScreenResults(onNavigateToScreenDetails: () -> Unit) {
                 modifier = Modifier
                     .padding(start = 2.dp, end = 2.dp, bottom = 4.dp)
                     .fillMaxSize(),
-                onClick = onNavigateToScreenDetails
+                onClick = {
+                    onNavigateToScreenDetails(sampleResults[index])
+                }
             ) {
                 Row {
                     ConstraintLayout {
@@ -75,7 +77,7 @@ fun ScreenResults(onNavigateToScreenDetails: () -> Unit) {
                             .align(alignment = Alignment.CenterVertically)
                     ) {
                         Text(
-                            text = sampleResults.get(index).title,
+                            text = sampleResults[index].title,
                             color = onPrimaryLight,
                             fontSize = 16.sp,
                             modifier = Modifier
@@ -83,7 +85,7 @@ fun ScreenResults(onNavigateToScreenDetails: () -> Unit) {
                                 .padding(bottom = 5.dp)
                         )
                         Text(
-                            text = sampleResults.get(index).description,
+                            text = sampleResults[index].description,
                             color = onPrimaryLight,
                             fontSize = 10.sp,
                             lineHeight = 12.sp
