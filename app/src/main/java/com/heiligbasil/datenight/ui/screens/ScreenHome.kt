@@ -1,9 +1,8 @@
-package com.heiligbasil.datenight
+package com.heiligbasil.datenight.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -21,6 +20,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,11 +36,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.heiligbasil.datenight.R
 import com.heiligbasil.datenight.ui.theme.DateNightTheme
 import com.heiligbasil.datenight.ui.theme.onPrimaryLight
 
 @Composable
-fun ScreenHome(onNavigateToScreenResults: () -> Unit) {
+fun ScreenHome(onNavigateToScreenResults: (searchQuery: String) -> Unit) {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         BackgroundImage(R.drawable.background1, R.string.background1_credit)
         Column(
@@ -57,21 +61,6 @@ fun ScreenHome(onNavigateToScreenResults: () -> Unit) {
             HorizontalDivider()
             SearchButton(onNavigateToScreenResults)
         }
-    }
-}
-
-@Composable
-private fun BackgroundImage(image: Int, imageCredit: Int) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Image(
-            painter = painterResource(id = image),
-            contentDescription = stringResource(id = imageCredit),
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.matchParentSize()
-        )
     }
 }
 
@@ -123,10 +112,16 @@ private fun UserImageAndName(image: Int, imageCredit: Int, name: Int) {
 }
 
 @Composable
-fun SearchButton(onNavigateToScreenResults: () -> Unit) {
-    Button(onClick = onNavigateToScreenResults, content = {
+fun SearchButton(onNavigateToScreenResults: (searchQuery: String) -> Unit) {
+    var enabled by remember { mutableStateOf(true) }
+    Button(onClick = {
+        enabled = false
+        onNavigateToScreenResults("date night ideas involving nature")
+    }, content = {
         Text(text = "Search")
-    })
+    },
+        enabled = enabled
+    )
 }
 
 @Preview(showBackground = true)

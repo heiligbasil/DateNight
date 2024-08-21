@@ -1,4 +1,4 @@
-package com.heiligbasil.datenight
+package com.heiligbasil.datenight.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.heiligbasil.datenight.ui.entities.SearchResult
+import com.heiligbasil.datenight.ui.entities.sampleResults
 import com.heiligbasil.datenight.ui.theme.DateNightTheme
 
 @Composable

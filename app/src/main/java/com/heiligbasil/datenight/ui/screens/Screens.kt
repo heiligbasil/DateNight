@@ -1,5 +1,6 @@
-package com.heiligbasil.datenight
+package com.heiligbasil.datenight.ui.screens
 
+import com.heiligbasil.datenight.ui.entities.SearchResult
 import kotlinx.serialization.Serializable
 
 @Serializable

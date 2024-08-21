@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.heiligbasil.datenight.ui.screens.ScreenNavigation
 import com.heiligbasil.datenight.ui.theme.DateNightTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +14,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             DateNightTheme(darkTheme = true) {
                 val navHostController: NavHostController = rememberNavController()
-                ScreensNavigation(navHostController = navHostController)
+                ScreenNavigation(navHostController = navHostController)
             }
         }
     }

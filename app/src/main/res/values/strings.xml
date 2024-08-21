@@ -5,4 +5,5 @@
     <string name="generic_profile_greeting">Welcome, </string>
     <string name="profile1_name">Basil</string>
     <string name="search_results_icon_description">Icon for </string>
+    <string name="search_results_image_description">Image for </string>
 </resources>
