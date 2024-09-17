@@ -1,5 +1,12 @@
 package com.heiligbasil.datenight.ui.screens
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.EaseIn
+import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
@@ -19,6 +26,7 @@ import kotlin.reflect.typeOf
 
 @Composable
 fun ScreenNavigation(navHostController: NavHostController) {
+    val animationDuration = 1000
     val mainViewModel = LocalViewModelStoreOwner.current?.let { viewModelStoreOwner ->
         viewModel(
             viewModelStoreOwner = viewModelStoreOwner,
@@ -28,7 +36,29 @@ fun ScreenNavigation(navHostController: NavHostController) {
     } ?: run {
         MainViewModel(customSearchRepository = CustomSearchRepositoryImpl(RetrofitInstance.api))
     }
-    NavHost(navController = navHostController, startDestination = Screens.Home) {
+    NavHost(
+        navController = navHostController, startDestination = Screens.Home,
+        enterTransition = {
+            fadeIn(
+                animationSpec = tween(
+                    durationMillis = animationDuration,
+                    easing = LinearEasing
+                )
+            ) + slideIntoContainer(
+                animationSpec = tween(durationMillis = animationDuration, easing = EaseIn),
+                towards = AnimatedContentTransitionScope.SlideDirection.Start
+            )
+        }, exitTransition = {
+            fadeOut(
+                animationSpec = tween(
+                    durationMillis = animationDuration, easing = LinearEasing
+                )
+            ) + slideOutOfContainer(
+                animationSpec = tween(durationMillis = animationDuration, easing = EaseOut),
+                towards = AnimatedContentTransitionScope.SlideDirection.End
+            )
+        }
+    ) {
         composable<Screens.Home> {
             val coroutineScope = rememberCoroutineScope()
             ScreenHome(onNavigateToScreenResults = { searchQueryPassed ->
@@ -46,9 +76,8 @@ fun ScreenNavigation(navHostController: NavHostController) {
                     navHostController.navigate(route = Screens.Details(selectedDetails = searchResultPassed))
                 })
         }
-        composable<Screens.Details>(
-            typeMap = mapOf(typeOf<SearchResult>() to SearchResultNavType)
-        ) { navBackStackEntry ->
+        composable<Screens.Details>(typeMap = mapOf(typeOf<SearchResult>() to SearchResultNavType))
+        { navBackStackEntry ->
             val routeArg = navBackStackEntry.toRoute<Screens.Details>()
             ScreenDetails(searchResult = routeArg.selectedDetails)
         }

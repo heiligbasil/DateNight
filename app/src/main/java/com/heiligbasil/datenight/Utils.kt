@@ -39,4 +39,7 @@ object Utils {
 
     fun String?.urlDecode(): String =
         URLDecoder.decode(this, StandardCharsets.UTF_8.toString())
+
+    fun String?.replaceSlashesWithHyphens(): String? =
+        this?.replace(oldValue = "/", newValue = " - ")?.replace(oldValue = "  ", newValue = "")
 }

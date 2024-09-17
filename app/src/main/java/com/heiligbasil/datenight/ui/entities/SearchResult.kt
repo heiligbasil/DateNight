@@ -21,6 +21,8 @@ data class SearchResult(
 ) : Parcelable {
 
     companion object {
+        const val defaultTitle = "Date Night Option"
+        const val defaultDescription = "Date Night Details"
         const val defaultUrlEncoded = "https%3A%2F%2Fwww.example.com%2F"
         val defaultImage = R.drawable.default_image
 

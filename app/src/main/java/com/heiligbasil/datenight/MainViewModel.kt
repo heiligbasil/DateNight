@@ -2,11 +2,14 @@ package com.heiligbasil.datenight
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.heiligbasil.datenight.Utils.replaceSlashesWithHyphens
 import com.heiligbasil.datenight.Utils.urlEncode
 import com.heiligbasil.datenight.data.CustomSearchRepository
 import com.heiligbasil.datenight.data.NetworkResult
 import com.heiligbasil.datenight.data.entities.CustomSearchResponse
 import com.heiligbasil.datenight.ui.entities.SearchResult
+import com.heiligbasil.datenight.ui.entities.SearchResult.Companion.defaultDescription
+import com.heiligbasil.datenight.ui.entities.SearchResult.Companion.defaultTitle
 import com.heiligbasil.datenight.ui.entities.sampleResults
 
 class MainViewModel(private val customSearchRepository: CustomSearchRepository) : ViewModel() {
@@ -29,13 +32,13 @@ class MainViewModel(private val customSearchRepository: CustomSearchRepository) 
     }
 
     fun convertCustomSearchResponseToSearchResultList() {
-        var informInLog = "Added ${searchResponse.items?.count()} to the stored list"
+        var informInLog = "Adding ${searchResponse.items?.count()} items to the list"
         searchResults.clear()
         searchResponse.items?.forEach {
             searchResults.add(
                 SearchResult(
-                    title = it?.title ?: "Title",
-                    description = it?.snippet ?: "Description",
+                    title = it?.title.replaceSlashesWithHyphens() ?: defaultTitle,
+                    description = it?.snippet.replaceSlashesWithHyphens() ?: defaultDescription,
                     actualLink = it?.link?.urlEncode(),
                     displayLink = it?.displayLink?.urlEncode(),
                     imageUrl = it?.pagemap?.cseImage?.get(0)?.src?.urlEncode()
