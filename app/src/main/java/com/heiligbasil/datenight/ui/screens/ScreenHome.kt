@@ -21,8 +21,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import com.heiligbasil.datenight.R
 import com.heiligbasil.datenight.ui.theme.DateNightTheme
 import com.heiligbasil.datenight.ui.theme.onPrimaryLight
+import com.heiligbasil.datenight.ui.theme.secondaryContainerLight
 
 @Composable
 fun ScreenHome(onNavigateToScreenResults: (searchQuery: String) -> Unit) {
@@ -53,13 +56,22 @@ fun ScreenHome(onNavigateToScreenResults: (searchQuery: String) -> Unit) {
         ) {
             ScreenTitle()
             HorizontalDivider()
-            UserImageAndName(
-                R.drawable.profile1,
-                R.string.profile1_credit,
-                R.string.profile1_name
+            var searchedTally by rememberSaveable { mutableIntStateOf(0) }
+            var datesTally by rememberSaveable { mutableIntStateOf(0) }
+            UserImageNameAndStats(
+                image = R.drawable.profile1,
+                imageCredit = R.string.profile1_credit,
+                name = R.string.profile1_name,
+                searchedTally = searchedTally,
+                datesTally = datesTally
             )
             HorizontalDivider()
-            SearchButton(onNavigateToScreenResults)
+            var searchButtonEnabled by rememberSaveable { mutableStateOf(true) }
+            SearchButton(searchButtonEnabled) {
+                searchButtonEnabled = false
+                searchedTally +=1
+                onNavigateToScreenResults("date night ideas involving nature")
+            }
         }
     }
 }
@@ -85,7 +97,13 @@ fun ScreenTitle() {
 }
 
 @Composable
-private fun UserImageAndName(image: Int, imageCredit: Int, name: Int) {
+private fun UserImageNameAndStats(
+    image: Int,
+    imageCredit: Int,
+    name: Int,
+    searchedTally: Int,
+    datesTally: Int
+) {
     Row(
         modifier = Modifier
             .height(IntrinsicSize.Max)
@@ -105,22 +123,38 @@ private fun UserImageAndName(image: Int, imageCredit: Int, name: Int) {
             alignment = Alignment.CenterStart
         )
         Spacer(modifier = Modifier.width(10.dp))
-        val profileGreeting = stringResource(id = R.string.generic_profile_greeting)
-        val profileName = stringResource(id = name)
-        Text(text = "$profileGreeting $profileName", color = onPrimaryLight, fontSize = 16.sp)
+        Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.Start) {
+            val profileGreeting = stringResource(id = R.string.generic_profile_greeting)
+            val profileName = stringResource(id = name)
+            Text(text = "$profileGreeting $profileName", color = onPrimaryLight, fontSize = 16.sp)
+            Text(
+                modifier = Modifier.padding(start = 10.dp),
+                text = stringResource(R.string.total_searches) + searchedTally,
+                color = secondaryContainerLight,
+                fontSize = 12.sp
+            )
+
+            Text(
+                modifier = Modifier.padding(start = 10.dp),
+                text = stringResource(R.string.total_dates) + datesTally,
+                color = secondaryContainerLight,
+                fontSize = 12.sp
+            )
+        }
     }
 }
 
 @Composable
-fun SearchButton(onNavigateToScreenResults: (searchQuery: String) -> Unit) {
-    var enabled by remember { mutableStateOf(true) }
-    Button(onClick = {
-        enabled = false
-        onNavigateToScreenResults("date night ideas involving nature")
-    }, content = {
-        Text(text = "Search")
-    },
-        enabled = enabled
+fun SearchButton(
+    enabled: Boolean,
+    onClick: () -> Unit,
+) {
+    Button(
+        content = {
+            Text(text = "Search")
+        },
+        enabled = enabled,
+        onClick = onClick,
     )
 }
 
