@@ -1,6 +1,6 @@
 [versions]
 activityCompose = "1.9.1"
-agp = "8.5.2"
+agp = "8.7.3"
 coil = "2.7.0"
 composeBom = "2024.06.00"
 composeConstraintLayout = "1.0.1"
