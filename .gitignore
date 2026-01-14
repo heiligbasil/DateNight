@@ -9,6 +9,7 @@
 /.idea/assetWizardSettings.xml
 /.idea/deploymentTargetSelector.xml
 /.idea/copilot.data.migration.ask2agent.xml
+/.idea/copilot.data.migration.agent.xml
 .DS_Store
 /build
 /captures
