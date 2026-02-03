@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.ApplicationExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
@@ -10,7 +11,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.parcelize)
 }
 
-android {
+extensions.configure<ApplicationExtension>("android") {
     namespace = "com.heiligbasil.datenight"
     compileSdk = 36
 
@@ -46,11 +47,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_1_8)
-        }
-    }
     buildFeatures {
         compose = true
         buildConfig = true
@@ -62,6 +58,12 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_1_8)
     }
 }
 
